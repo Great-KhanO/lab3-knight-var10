@@ -46,3 +46,22 @@ def knight_move(start: Tuple[int, int], finish: Tuple[int, int]) -> int:
           queue.append((nx, ny, moves + 1))
 
   return -1
+
+def knights_collision(first: Tuple[int, int], second: Tuple[int, int]) -> int:
+  """
+  Вычисляет минимальное количество одновременных ходов, через которое
+  встретятся два коня, находящиеся на клетках first и second.
+  Если клетки разного цвета, встреча невозможна — возвращается -1.
+  """
+  _validate_position(first, "first")
+  _validate_position(second, "second")
+
+  if first == second:
+    return 0
+
+  # Каждый ход меняет цвет клетки (чётность x + y).
+  # При разной чётности стартовых клеток одновременная встреча невозможна.
+  if (first[0] + first[1]) % 2 != (second[0] + second[1]) % 2:
+    return -1
+
+  return knight_move(first, second) // 2
